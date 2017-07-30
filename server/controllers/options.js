@@ -1,8 +1,9 @@
-const db = require('../db'); // eslint-disable-line no-unused-vars
+const db = require('../../db'); // eslint-disable-line no-unused-vars
 
-const Option = require('../db/models/options');
-// const User = require('../db/models/users');
-const Vote = require('../db/models/votes');
+const User = require('../../db/models/users');
+const Option = require('../../db/models/options');
+const Poll = require('../../db/models/polls');
+const Vote = require('../../db/models/votes');
 
 const router = require('express').Router();
 
@@ -46,7 +47,10 @@ router.patch('/:id', (req, res) => {
         .spread((vote, newRecord) => {
           // case: new record, new option
           if (newRecord) {
+            // increase tally and poll/user records
             option.increment('tally');
+            User.findById(user_id).then(user => user.increment('vote_count'));
+            Poll.findById(poll_id).then(poll => poll.increment('vote_count'));
             return res.status(200).send(`Voted for option "${option.content}" on poll ${option.poll_id}`);
           }
 

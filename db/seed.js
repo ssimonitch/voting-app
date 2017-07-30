@@ -5,13 +5,11 @@ const seedUsers = () =>
     [
       {
         email: 'bob@test.com',
-        username: 'iambob',
         password: 'abc123',
         vote_count: 0
       },
       {
         email: 'john@test.com',
-        username: 'iamjohn',
         password: '123abc',
         vote_count: 0
       }

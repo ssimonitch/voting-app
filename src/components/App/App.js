@@ -17,19 +17,15 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <Link to="about">
+        <Link to="signup">
           <button>Test React Router</button>
         </Link>
         <br />
         <br />
-        <button onClick={this.props.actions.expressTest}>
-          Test if Express is working
-        </button>
+        <button onClick={this.props.actions.expressTest}>Test if Express is working</button>
         <br />
         <br />
-        <button onClick={this.props.actions.dbTest}>
-          Test if Express and Sequelize are working
-        </button>
+        <button onClick={this.props.actions.dbTest}>Test if Express and Sequelize are working</button>
         <div style={{ padding: '30px' }}>
           {this.props.results}
         </div>

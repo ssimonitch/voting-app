@@ -1,6 +1,6 @@
-const db = require('../db'); // eslint-disable-line no-unused-vars
-const Poll = require('../db/models/polls');
-const Option = require('../db/models/options');
+const db = require('../../db'); // eslint-disable-line no-unused-vars
+const Poll = require('../../db/models/polls');
+const Option = require('../../db/models/options');
 
 const router = require('express').Router();
 

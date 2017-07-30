@@ -1,11 +1,11 @@
 const api = (module.exports = require('express').Router());
 
-const users = require('./users');
-const polls = require('./polls');
-const options = require('./options');
+const users = require('./controllers/users');
+const polls = require('./controllers/polls');
+const options = require('./controllers/options');
 
 api
-  .get('/express-test', (req, res) => res.send({ express: 'working!' })) //demo route to prove api is working
+  .get('/express-test', (req, res) => res.send({ express: 'working!' }))
   .use('/users', users)
   .use('/polls', polls)
   .use('/options', options);

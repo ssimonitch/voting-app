@@ -1,10 +1,10 @@
-const db = require('../db'); // eslint-disable-line no-unused-vars
+const db = require('../../db'); // eslint-disable-line no-unused-vars
 // const sequelize = require('sequelize');
 
-const User = require('../db/models/users');
-const Poll = require('../db/models/polls');
-const Option = require('../db/models/options');
-const Vote = require('../db/models/votes');
+const User = require('../../db/models/users');
+const Poll = require('../../db/models/polls');
+const Option = require('../../db/models/options');
+const Vote = require('../../db/models/votes');
 
 const router = require('express').Router();
 
@@ -51,7 +51,6 @@ router.get('/:id/votes', (req, res) => {
 router.post('/', (req, res) => {
   User.create({
     email: req.body.email,
-    username: req.body.username,
     password: req.body.password
   }).then(() => {
     res.status(200).send('User created successfully!');

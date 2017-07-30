@@ -44,7 +44,7 @@ export const dbTest = () => {
   return dispatch => {
     dispatch(dbTestStart());
     axios
-      .get('/api/products')
+      .get('/api/users')
       .then(res => dispatch(dbTestResults(JSON.stringify(res.data, null, 4))))
       .catch(err => dispatch(dbTestError(err)));
   };
