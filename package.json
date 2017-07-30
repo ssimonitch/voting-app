@@ -17,7 +17,7 @@
     "express": "*",
     "morgan": "*",
     "nodemon": "*",
-    "pg": "*",
+    "pg": "6.4.1",
     "prop-types": "^15.5.10",
     "react": "*",
     "react-dom": "*",

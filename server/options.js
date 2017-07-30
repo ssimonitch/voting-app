@@ -1,5 +1,8 @@
 const db = require('../db'); // eslint-disable-line no-unused-vars
+
 const Option = require('../db/models/options');
+// const User = require('../db/models/users');
+const Vote = require('../db/models/votes');
 
 const router = require('express').Router();
 
@@ -24,17 +27,54 @@ router.post('/', (req, res) => {
   });
 });
 
-router.put('/:id', (req, res) => {
-  const updates = req.body.updates;
-
+// increment/decrement tally
+router.patch('/:id', (req, res) => {
   Option.findOne({
     where: { id: req.params.id }
   })
-    .then(user => {
-      return user.updateAttributes(updates);
+    .then(option => {
+      const user_id = req.body.user_id;
+      const poll_id = option.poll_id;
+
+      // find or create vote record
+      Vote.findOrCreate({
+        where: { user_id, poll_id },
+        defaults: { option_id: option.id }
+      })
+        // Promise.spread divides returned array into 2 parts
+        // and passes them as arguments to the callback function
+        .spread((vote, newRecord) => {
+          // case: new record, new option
+          if (newRecord) {
+            option.increment('tally');
+            return res.status(200).send(`Voted for option "${option.content}" on poll ${option.poll_id}`);
+          }
+
+          // case: old record, new option
+          if (!newRecord && vote.option_id !== option.id) {
+            // decrement old option
+            Option.findById(vote.option_id).then(oldOption => {
+              oldOption.decrement('tally');
+            });
+
+            // increment new option
+            option.increment('tally');
+
+            // update record
+            vote.update({ option_id: option.id });
+            return res.status(200).send(`Changed vote to option "${option.content}" on poll ${option.poll_id}`);
+          }
+
+          // case: old record, old option
+          if (!newRecord && vote.option_id === option.id) {
+            return res.status(200).send('You have already voted for that option.');
+          }
+        })
+        .catch(err => console.log(`Error processing vote: ${err}`));
     })
-    .then(result => {
-      res.status(200).send(result);
+    .catch(err => {
+      console.log(`Invalid option number. ${err}`);
+      return res.status(404).send('Could not process vote');
     });
 });
 

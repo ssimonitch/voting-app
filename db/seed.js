@@ -6,12 +6,14 @@ const seedUsers = () =>
       {
         email: 'bob@test.com',
         username: 'iambob',
-        password: 'abc123'
+        password: 'abc123',
+        vote_count: 0
       },
       {
         email: 'john@test.com',
         username: 'iamjohn',
-        password: '123abc'
+        password: '123abc',
+        vote_count: 0
       }
     ],
     user => db.model('users').create(user)
@@ -22,15 +24,18 @@ const seedPolls = () =>
     [
       {
         user_id: 1,
-        title: 'What color do you like?'
+        title: 'What color do you like?',
+        vote_count: 0
       },
       {
         user_id: 2,
-        title: 'Are you thirsty?'
+        title: 'Are you thirsty?',
+        vote_count: 0
       },
       {
         user_id: 2,
-        title: 'Does this dress make me look fat?'
+        title: 'Does this dress make me look fat?',
+        vote_count: 0
       }
     ],
     poll => db.model('polls').create(poll)

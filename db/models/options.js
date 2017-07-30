@@ -11,7 +11,11 @@ const Option = db.define('options', {
   tally: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    defaultValue: 0
+    defaultValue: 0,
+    validate: {
+      min: -1,
+      max: 1
+    }
   }
 });
 

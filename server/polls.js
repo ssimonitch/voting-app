@@ -36,8 +36,8 @@ router.put('/:id', (req, res) => {
   Poll.findOne({
     where: { id: req.params.id }
   })
-    .then(user => {
-      return user.updateAttributes(updates);
+    .then(poll => {
+      return poll.updateAttributes(updates);
     })
     .then(result => {
       res.status(200).send(result);
