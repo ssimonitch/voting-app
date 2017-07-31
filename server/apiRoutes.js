@@ -1,3 +1,7 @@
+// require('./config/passport');
+// const passport = require('passport');
+// const requireAuth = passport.authenticate('jwt', { session: false });
+
 const api = (module.exports = require('express').Router());
 
 const users = require('./controllers/users');

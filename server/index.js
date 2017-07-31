@@ -4,7 +4,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-const authRoute = require('./authRoute');
+const authRoutes = require('./authRoutes');
 
 const app = express();
 
@@ -16,8 +16,8 @@ app.use(bodyParser.json()); // parse body
 
 // ROUTES
 app.use(express.static(path.resolve(__dirname, '..', 'public')));
-app.use('/api', require('./api'));
-authRoute(app);
+app.use('/api', require('./apiRoutes'));
+authRoutes(app);
 
 // ALWAYS RENDER MAIN FOR REACT-ROUTER
 app.get('*', (req, res) => {
