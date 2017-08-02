@@ -4,17 +4,17 @@ const passport = require('passport');
 const Authentication = require('./controllers/authentication');
 
 const requireAuth = passport.authenticate('jwt', { session: false });
-const requireSignin = passport.authenticate('local', { session: false });
+const localAuth = passport.authenticate('local', { session: false });
 
 module.exports = function(app) {
   // authentication test route
-  app.get('/authtest', requireAuth, (req, res) => {
+  app.get('/auth/test', requireAuth, (req, res) => {
     res.send({ message: 'Super secret code is ABC123' });
   });
 
   // provide jwt token for existing user
-  app.post('/signin', requireSignin, Authentication.signin);
+  app.post('/auth/signin', localAuth, Authentication.signin);
 
   // create user record and provide jwt token
-  app.post('/signup', Authentication.signup);
+  app.post('/auth/signup', Authentication.signup);
 };

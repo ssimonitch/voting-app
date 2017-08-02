@@ -1,15 +1,6 @@
-import {
-  EXPRESS_TEST_RESULTS,
-  DB_TEST_RESULTS,
-  EXPRESS_TEST_ERROR,
-  DB_TEST_ERROR
-} from '../actions';
+import { EXPRESS_TEST_RESULTS, DB_TEST_RESULTS, EXPRESS_TEST_ERROR, DB_TEST_ERROR } from '../actions/demo_actions';
 
-const initialState = {
-  results: ''
-};
-
-const demo = (state = initialState, action) => {
+const demo = (state = { results: '' }, action) => {
   switch (action.type) {
   case EXPRESS_TEST_RESULTS:
     return { ...state, results: 'Test Succeeded!  ' + action.data };

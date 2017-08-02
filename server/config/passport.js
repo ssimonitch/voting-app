@@ -1,3 +1,5 @@
+'use strict';
+
 const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
@@ -7,10 +9,13 @@ const db = require('../../db'); // eslint-disable-line
 const config = require('./index');
 const User = require('../../db/models/users');
 
-// create local strategy
+/**
+ * Sign in using Email and Password.
+ */
 const localOptions = { usernameField: 'email' };
 
 const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
+  email = email.toLowerCase();
   // verify username and password, call done with the user
   User.findOne({ where: { email } })
     .then(user => {
@@ -27,7 +32,7 @@ const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
 // create JWT strategy
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-  secretOrKey: config.secret
+  secretOrKey: config.sessionSecret
 };
 
 const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {

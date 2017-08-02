@@ -7,7 +7,7 @@ const User = require('../../db/models/users');
 // generate web token
 function generateUserToken(user) {
   const timestamp = new Date().getTime();
-  return jwt.encode({ sub: user.id, iat: timestamp }, config.secret);
+  return jwt.encode({ sub: user.id, iat: timestamp }, config.sessionSecret);
 }
 
 // CASE: user account created. only need to provide token.

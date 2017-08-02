@@ -4,8 +4,7 @@ const Sequelize = require('sequelize');
 const pkg = require('../package.json');
 
 const name = process.env.DATABASE_NAME || pkg.name;
-
-const uri = process.env.DATABASE_URL || `postgres://localhost:5432/${name}`;
+const uri = process.env.DATABASE_URL || 'postgres://localhost:5432/voting_app_dev';
 
 console.log(chalk.yellow(`Opening database connection to ${uri}${name}`));
 
@@ -23,9 +22,7 @@ const db = (module.exports = new Sequelize(uri, {
 db
   .authenticate()
   .then(() => {
-    console.log(
-      `Connection to ${name} database has been established successfully.`
-    );
+    console.log(`Connection to ${name} database has been established successfully.`);
   })
   .catch(err => {
     console.error('Unable to connect to the database:', err);
@@ -36,12 +33,9 @@ require('./models');
 
 // sync the db, creating it if necessary
 function sync() {
-  return db
-    .sync({ force: false })
-    .then(() => console.log(`Synced models to db ${uri}`))
-    .catch(fail => {
-      console.log(fail);
-    });
+  return db.sync({ force: false }).then(() => console.log(`Synced models to db ${uri}`)).catch(fail => {
+    console.log(fail);
+  });
 }
 
 db.didSync = sync();

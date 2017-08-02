@@ -1,51 +1,67 @@
 import axios from 'axios';
+import history from '../history';
 
-export const EXPRESS_TEST_START = 'EXPRESS_TEST_START';
-export const expressTestStart = () => {
-  return { type: EXPRESS_TEST_START };
-};
+import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, FETCH_MESSAGE } from './types';
 
-export const EXPRESS_TEST_RESULTS = 'EXPRESS_TEST_RESULTS';
-export const expressTestResults = data => {
-  return { type: EXPRESS_TEST_RESULTS, data };
-};
+const ROOT_URL = 'http://localhost:3000';
 
-export const EXPRESS_TEST_ERROR = 'EXPRESS_TEST_ERROR';
-export const expressTestError = data => {
-  return { type: EXPRESS_TEST_ERROR, data };
-};
-
-export const EXPRESS_TEST = 'EXPRESS_TEST';
-export const expressTest = () => {
-  return dispatch => {
-    dispatch(expressTestStart());
+export function signinUser({ email, password }) {
+  return function(dispatch) {
     axios
-      .get('/api/express-test')
-      .then(res => dispatch(expressTestResults(JSON.stringify(res.data))))
-      .catch(err => dispatch(expressTestError(err)));
+      .post(`${ROOT_URL}/auth/signin`, { email, password })
+      .then(response => {
+        dispatch({ type: AUTH_USER });
+        localStorage.setItem('token', response.data.token);
+        history.push('/feature');
+      })
+      .catch(() => {
+        dispatch(authError('Bad login info'));
+      });
   };
-};
+}
 
-export const DB_TEST_START = 'DB_TEST_START';
-export const dbTestStart = () => {
-  return { type: DB_TEST_START };
-};
-export const DB_TEST_RESULTS = 'DB_TEST_RESULTS';
-export const dbTestResults = data => {
-  return { type: DB_TEST_RESULTS, data };
-};
-export const DB_TEST_ERROR = 'DB_TEST_ERROR';
-export const dbTestError = data => {
-  return { type: DB_TEST_ERROR, data };
-};
-
-export const DB_TEST = 'DB_TEST';
-export const dbTest = () => {
-  return dispatch => {
-    dispatch(dbTestStart());
+export function signupUser({ email, password }) {
+  return function(dispatch) {
     axios
-      .get('/api/users')
-      .then(res => dispatch(dbTestResults(JSON.stringify(res.data, null, 4))))
-      .catch(err => dispatch(dbTestError(err)));
+      .post(`${ROOT_URL}/auth/signup`, { email, password })
+      .then(response => {
+        dispatch({ type: AUTH_USER });
+        localStorage.setItem('token', response.data.token);
+        history.push('/feature');
+      })
+      .catch(error => {
+        dispatch(authError(error.response.data.error));
+      });
   };
-};
+}
+
+export function signoutUser() {
+  localStorage.removeItem('token');
+  history.push('/');
+  return {
+    type: UNAUTH_USER
+  };
+}
+
+export function authError(error) {
+  return {
+    type: AUTH_ERROR,
+    payload: error
+  };
+}
+
+export function fetchMessage() {
+  return function(dispatch) {
+    axios
+      .get(`${ROOT_URL}/auth/test`, {
+        headers: { authorization: localStorage.getItem('token') }
+      })
+      .then(response => {
+        dispatch({
+          type: FETCH_MESSAGE,
+          payload: response.data.message
+        });
+      })
+      .catch(error => dispatch(authError(error.response.data)));
+  };
+}
