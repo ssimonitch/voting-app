@@ -2,11 +2,11 @@ import React from 'react';
 import history from './history';
 
 import Nav from './components/nav';
-import App from './components/app';
+import Home from './components/home';
+import Demo from './components/demo';
 import Feature from './components/feature';
 import SignUp from './components/auth/signup';
 import SignIn from './components/auth/signin';
-import SignOut from './components/auth/signout';
 import RequireAuth from './containers/require_auth';
 
 // check out history and this
@@ -19,10 +19,10 @@ const Routes = () => {
     <Router history={history}>
       <div>
         <Route path="/" component={Nav} />
-        <Route exact path="/" component={App} />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/demo" component={Demo} />
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/signin" component={SignIn} />
-        <Route exact path="/signout" component={SignOut} />
         <Route exact path="/feature" component={RequireAuth(Feature)} />
       </div>
     </Router>

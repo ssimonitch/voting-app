@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
-import * as actions from '../../actions';
+import { signupUser } from '../../actions';
 
 import styled from 'styled-components';
 
@@ -118,4 +118,4 @@ function mapStateToProps(state) {
   return { errorMessage: state.auth.error };
 }
 
-export default connect(mapStateToProps, actions)(form);
+export default connect(mapStateToProps, { signupUser })(form);

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
 
-import * as actions from '../../actions';
+import { signinUser } from '../../actions';
 
 const Container = styled.div`margin-top: 40px;`;
 
@@ -87,4 +87,4 @@ function mapStateToProps(state) {
 }
 
 const form = reduxForm({ form: 'signin' })(SignIn);
-export default connect(mapStateToProps, actions)(form);
+export default connect(mapStateToProps, { signinUser })(form);
