@@ -49,6 +49,13 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
     .catch(err => done(err));
 });
 
+// serialize user
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((user, done) => {
+  if (!user) return done(null, false);
+  done(null, user);
+});
+
 // tell passport to use this strategy
 passport.use(jwtLogin);
 passport.use(localLogin);

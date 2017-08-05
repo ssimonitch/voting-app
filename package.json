@@ -15,6 +15,7 @@
     "chalk": "*",
     "classnames": "*",
     "concurrently": "*",
+    "connect-redis": "^3.3.0",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
@@ -47,7 +48,7 @@
     "styled-components": "^2.1.1"
   },
   "scripts": {
-    "start": "concurrently \"set NODE_ENV=dev\" \"react-scripts start\" \"nodemon server\"",
+    "start": "concurrently \"set NODE_ENV=development\" \"react-scripts start\" \"nodemon server\"",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",

@@ -56,7 +56,7 @@ class Nav extends Component {
   render() {
     return (
       <div>
-        <nav className="navbar navbar-inverse">
+        <nav className="navbar navbar-light">
           <Link to="/" className="navbar-brand">
             Voting App
           </Link>
