@@ -24,6 +24,7 @@ module.exports = function(options) {
   app.use('/api', require('./api'));
 
   // VIEWS
+
   app.use(express.static(path.resolve(__dirname, '..', 'public')));
 
   app.get('*', (req, res) => {

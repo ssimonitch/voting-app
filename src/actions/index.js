@@ -20,6 +20,22 @@ export function signinUser({ email, password }) {
   };
 }
 
+export function socialLogin() {
+  return function(dispatch) {
+    axios
+      .get(`${ROOT_URL}/auth/twitter`)
+      .then(response => {
+        console.log(response);
+        // dispatch({ type: AUTH_USER });
+        // localStorage.setItem('token', response.data.token);
+        // history.push('/feature');
+      })
+      .catch(err => {
+        dispatch(authError(err));
+      });
+  };
+}
+
 export function signupUser({ email, password }) {
   return function(dispatch) {
     axios

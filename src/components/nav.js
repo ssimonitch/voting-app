@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { signoutUser } from '../actions';
+import { signoutUser, socialLogin } from '../actions';
 
 import logo from './logo.svg';
 import styled from 'styled-components';
@@ -12,6 +12,11 @@ class Nav extends Component {
     super(props);
 
     this.handleSignOut = this.handleSignOut.bind(this);
+    this.handleSocialSignIn = this.handleSocialSignIn.bind(this);
+  }
+
+  handleSocialSignIn() {
+    this.props.socialLogin();
   }
 
   handleSignOut() {
@@ -48,12 +53,18 @@ class Nav extends Component {
           <Link className="nav-link" to="/signup">
             Sign Up
           </Link>
+        </li>,
+        <li className="nav-item" key={4} onClick={this.handleSocialSignIn}>
+          <a href="/auth/twitter" className="btn btn-block btn-twitter btn-social">
+            <i className="fa fa-twitter" />Sign in with Twitter
+          </a>
         </li>
       ];
     }
   }
 
   render() {
+    console.log('NAV PROPS', this.props);
     return (
       <div>
         <nav className="navbar navbar-light">
@@ -106,7 +117,8 @@ const NavButtons = styled.ul`
 
 Nav.propTypes = {
   authenticated: PropTypes.bool,
-  signoutUser: PropTypes.func
+  signoutUser: PropTypes.func,
+  socialLogin: PropTypes.func
 };
 
 function mapStateToProps(state) {
@@ -115,4 +127,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { signoutUser })(Nav);
+export default connect(mapStateToProps, { signoutUser, socialLogin })(Nav);
