@@ -1,61 +1,67 @@
 import axios from 'axios';
 import history from '../history';
 
-import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, FETCH_MESSAGE } from './types';
+import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, FETCH_USER } from './types';
 
 const ROOT_URL = 'http://localhost:3000';
 
-export function signinUser({ email, password }) {
+export function login({ email, password }) {
   return function(dispatch) {
     axios
-      .post(`${ROOT_URL}/auth/signin`, { email, password })
+      .post(`${ROOT_URL}/auth/login`, { email, password })
       .then(response => {
-        dispatch({ type: AUTH_USER });
         localStorage.setItem('token', response.data.token);
-        history.push('/feature');
+        dispatch({ type: AUTH_USER });
       })
+      .then(() => history.replace('/dashboard'))
       .catch(() => {
         dispatch(authError('Bad login info'));
       });
   };
 }
 
-export function socialLogin() {
-  return function(dispatch) {
-    axios
-      .get(`${ROOT_URL}/auth/twitter`)
-      .then(response => {
-        console.log(response);
-        // dispatch({ type: AUTH_USER });
-        // localStorage.setItem('token', response.data.token);
-        // history.push('/feature');
-      })
-      .catch(err => {
-        dispatch(authError(err));
-      });
-  };
-}
+// export function twitterLogin() {
+//   return function(dispatch) {
+//     axios
+//       .post(`${ROOT_URL}/auth/twitter`)
+//       .then(response => {
+//         localStorage.setItem('token', response.data.token);
+//         dispatch({ type: AUTH_USER });
+//       })
+//       .then(() => history.replace('/dashboard'))
+//       .catch(() => {
+//         dispatch(authError('Bad login info'));
+//       });
+//   };
+// }
 
-export function signupUser({ email, password }) {
+export function emailSignup({ email, password }) {
   return function(dispatch) {
     axios
-      .post(`${ROOT_URL}/auth/signup`, { email, password })
+      .post(`${ROOT_URL}/auth/email_signup`, { email, password })
       .then(response => {
-        dispatch({ type: AUTH_USER });
         localStorage.setItem('token', response.data.token);
-        history.push('/feature');
+        dispatch({ type: AUTH_USER });
       })
+      .then(() => history.push('/dashboard'))
       .catch(error => {
         dispatch(authError(error.response.data.error));
       });
   };
 }
 
-export function signoutUser() {
-  localStorage.removeItem('token');
-  history.push('/');
-  return {
-    type: UNAUTH_USER
+export function logout() {
+  return function(dispatch) {
+    axios
+      .get(`${ROOT_URL}/auth/logout`)
+      .then(() => {
+        localStorage.removeItem('token');
+        dispatch({ type: UNAUTH_USER });
+      })
+      .then(() => history.replace('/'))
+      .catch(error => {
+        dispatch(authError(error.response.data.error));
+      });
   };
 }
 
@@ -66,16 +72,14 @@ export function authError(error) {
   };
 }
 
-export function fetchMessage() {
+export function fetchUser() {
   return function(dispatch) {
     axios
-      .get(`${ROOT_URL}/auth/test`, {
-        headers: { authorization: localStorage.getItem('token') }
-      })
-      .then(response => {
+      .get(`${ROOT_URL}/api/current_user`)
+      .then(user => {
         dispatch({
-          type: FETCH_MESSAGE,
-          payload: response.data.message
+          type: FETCH_USER,
+          payload: user.data
         });
       })
       .catch(error => dispatch(authError(error.response.data)));

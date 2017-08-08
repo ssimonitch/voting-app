@@ -9,6 +9,7 @@ module.exports = function(app) {
   require('passport');
 
   app.use(cookieParser(config.sessionSecret));
+
   app.use(
     session({
       secret: config.sessionSecret,

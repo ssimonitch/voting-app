@@ -13,16 +13,17 @@ module.exports = {
     ttl: 2592000
   },
 
-  postgres: {} // need to config
+  postgres: {}, // need to config
 
-  // twitter: {
-  //   consumerKey: process.env.TWITTER_KEY || 'sRS0PTMaOPdnGPUKXJFZZoDfe',
-  //   consumerSecret: process.env.TWITTER_SECRET || 'CzppCE6Xc8ZQRKjLbkRcVGuhYkLH3zfJMxZuT64G6CtkDDYLnl',
-  //   callbackURL: '/auth/twitter/callback',
-  //   passReqToCallback: true,
-  //   enableProof: true,
-  //   authOptions: {}
-  // }
+  twitter: {
+    consumerKey: process.env.TWITTER_KEY || 'sRS0PTMaOPdnGPUKXJFZZoDfe',
+    consumerSecret:
+      process.env.TWITTER_SECRET || 'CzppCE6Xc8ZQRKjLbkRcVGuhYkLH3zfJMxZuT64G6CtkDDYLnl',
+    callbackURL: '/auth/twitter/callback',
+    passReqToCallback: true,
+    enableProof: true,
+    authOptions: {}
+  }
 };
 
 //constructing Postgres connection string

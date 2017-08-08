@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
-import { signupUser } from '../../actions';
+import { emailSignup } from '../../actions';
 
 import styled from 'styled-components';
 
@@ -54,7 +54,7 @@ const renderField = ({ input, label, type, meta: { touched, error } }) =>
 
 class SignUp extends Component {
   handleFormSubmit(formProps) {
-    this.props.signupUser(formProps);
+    this.props.emailSignup(formProps);
   }
 
   renderAlert() {
@@ -75,7 +75,10 @@ class SignUp extends Component {
       <Container className="row">
         <div className="col-md-6 col-md-offset-3">
           <Header>Sign Up</Header>
-          <form className="well form-horizontal" onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+          <form
+            className="well form-horizontal"
+            onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}
+          >
             <fieldset className="form-group">
               <Field name="email" label="Email:" type="email" component={renderField} />
             </fieldset>
@@ -83,7 +86,12 @@ class SignUp extends Component {
               <Field name="password" label="Password:" type="password" component={renderField} />
             </fieldset>
             <fieldset className="form-group">
-              <Field name="passwordConfirm" label="Confirm Password:" type="password" component={renderField} />
+              <Field
+                name="passwordConfirm"
+                label="Confirm Password:"
+                type="password"
+                component={renderField}
+              />
             </fieldset>
             {this.renderAlert()}
             <button type="submit" className="btn btn-primary">
@@ -98,7 +106,7 @@ class SignUp extends Component {
 
 SignUp.propTypes = {
   handleSubmit: PropTypes.func,
-  signupUser: PropTypes.func,
+  emailSignup: PropTypes.func,
   errorMessage: PropTypes.string
 };
 
@@ -118,4 +126,4 @@ function mapStateToProps(state) {
   return { errorMessage: state.auth.error };
 }
 
-export default connect(mapStateToProps, { signupUser })(form);
+export default connect(mapStateToProps, { emailSignup })(form);

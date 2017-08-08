@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { signoutUser, socialLogin } from '../actions';
+import { logout } from '../actions';
 
-import logo from './logo.svg';
 import styled from 'styled-components';
 
 class Nav extends Component {
@@ -12,26 +11,31 @@ class Nav extends Component {
     super(props);
 
     this.handleSignOut = this.handleSignOut.bind(this);
-    this.handleSocialSignIn = this.handleSocialSignIn.bind(this);
-  }
-
-  handleSocialSignIn() {
-    this.props.socialLogin();
   }
 
   handleSignOut() {
-    this.props.signoutUser();
+    this.props.logout();
   }
 
   renderLinks() {
     if (this.props.authenticated) {
       return [
         <li className="nav-item" key={1}>
+          <Link className="nav-link" to="/dashboard/create">
+            Create Poll
+          </Link>
+        </li>,
+        <li className="nav-item" key={2}>
+          <Link className="nav-link" to="/dashboard/stats">
+            My Stats
+          </Link>
+        </li>,
+        <li className="nav-item" key={3}>
           <Link className="nav-link" to="/demo">
             Demo
           </Link>
         </li>,
-        <li className="nav-item" key={2}>
+        <li className="nav-item" key={4}>
           <Link className="nav-link" to="/" onClick={this.handleSignOut}>
             Sign Out
           </Link>
@@ -54,9 +58,9 @@ class Nav extends Component {
             Sign Up
           </Link>
         </li>,
-        <li className="nav-item" key={4} onClick={this.handleSocialSignIn}>
-          <a href="/auth/twitter" className="btn btn-block btn-twitter btn-social">
-            <i className="fa fa-twitter" />Sign in with Twitter
+        <li className="nav-item" key={4}>
+          <a className="nav-link" href="/auth/twitter">
+            Sign In with Twitter
           </a>
         </li>
       ];
@@ -64,7 +68,6 @@ class Nav extends Component {
   }
 
   render() {
-    console.log('NAV PROPS', this.props);
     return (
       <div>
         <nav className="navbar navbar-light">
@@ -76,7 +79,6 @@ class Nav extends Component {
           </NavButtons>
         </nav>
         <Header>
-          <Logo src={logo} alt="logo" />
           <h2>Welcome to React!</h2>
         </Header>
       </div>
@@ -92,20 +94,6 @@ const Header = styled.div`
   text-align: center;
 `;
 
-const Logo = styled.img`
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-
-  @keyframes App-logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-`;
-
 const NavButtons = styled.ul`
   float: right;
   margin-right: 20px;
@@ -117,8 +105,7 @@ const NavButtons = styled.ul`
 
 Nav.propTypes = {
   authenticated: PropTypes.bool,
-  signoutUser: PropTypes.func,
-  socialLogin: PropTypes.func
+  logout: PropTypes.func
 };
 
 function mapStateToProps(state) {
@@ -127,4 +114,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { signoutUser, socialLogin })(Nav);
+export default connect(mapStateToProps, { logout })(Nav);

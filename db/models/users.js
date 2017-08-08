@@ -18,8 +18,7 @@ const User = db.define(
       }
     },
     password: {
-      type: Sequelize.STRING,
-      allowNull: false
+      type: Sequelize.STRING
     },
     twitterId: {
       type: Sequelize.STRING,

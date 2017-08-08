@@ -3,49 +3,42 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "debug": "*",
-    "nodemon": "*",
-    "react-scripts": "*",
-    "yargs": "*"
+    "debug": "^2.6.8",
+    "nodemon": "^1.11.0",
+    "react-scripts": "^1.0.10",
+    "yargs": "^8.0.2"
   },
   "dependencies": {
     "axios": "^0.16.2",
     "bcrypt-nodejs": "^0.0.3",
-    "body-parser": "*",
-    "chalk": "*",
-    "classnames": "*",
-    "concurrently": "*",
+    "body-parser": "^1.17.2",
+    "chalk": "^2.0.1",
+    "concurrently": "^3.5.0",
     "connect-redis": "^3.3.0",
     "cookie-parser": "^1.4.3",
-    "cors": "^2.8.4",
     "dotenv": "^4.0.0",
-    "express": "*",
+    "express": "^4.15.3",
     "express-session": "^1.15.4",
     "history": "^4.6.3",
-    "jwt-simple": "^0.5.1",
     "lodash": "^4.17.4",
-    "morgan": "*",
-    "nodemon": "*",
+    "morgan": "^1.8.2",
     "passport": "^0.3.2",
-    "passport-jwt": "^2.2.1",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "pg": "6.4.1",
     "prop-types": "^15.5.10",
-    "react": "*",
-    "react-bootstrap": "^0.31.2",
-    "react-dom": "*",
-    "react-redux": "*",
-    "react-router-bootstrap": "^0.24.2",
-    "react-router-dom": "*",
-    "react-router-redux": "*",
-    "redux": "*",
+    "react": "^15.6.1",
+    "react-dom": "15.6.1",
+    "react-redux": "5.0.5",
+    "react-router-dom": "^4.1.2",
+    "react-router-redux": "^4.0.8",
+    "redux": "^3.7.2",
     "redux-form": "^7.0.3",
-    "redux-logger": "*",
-    "redux-thunk": "*",
-    "sequelize": "*",
+    "redux-thunk": "^2.2.0",
+    "sequelize": "^4.4.2",
     "sequelize-cli": "^2.7.0",
-    "styled-components": "^2.1.1"
+    "styled-components": "^2.1.1",
+    "uuid": "^3.1.0"
   },
   "scripts": {
     "start": "concurrently \"set NODE_ENV=development\" \"react-scripts start\" \"nodemon server\"",
@@ -54,5 +47,12 @@
     "eject": "react-scripts eject",
     "seed": "node db/seed.js"
   },
-  "proxy": "http://localhost:8000"
+  "proxy": {
+    "/auth/*": {
+      "target": "http://localhost:8000"
+    },
+    "/api/*": {
+      "target": "http://localhost:8000"
+    }
+  }
 }

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
 
-import { signinUser } from '../../actions';
+import { login } from '../../actions';
 
 const Container = styled.div`margin-top: 40px;`;
 
@@ -30,7 +30,7 @@ const renderField = ({ input, label, type, meta: { touched, error } }) =>
 
 class SignIn extends Component {
   handleFormSubmit({ email, password }) {
-    this.props.signinUser({ email, password });
+    this.props.login({ email, password });
   }
 
   renderAlert() {
@@ -45,13 +45,15 @@ class SignIn extends Component {
 
   render() {
     const { handleSubmit } = this.props;
-    console.log('SIGN IN PROPS', this.props);
 
     return (
       <Container className="row">
         <div className="col-md-6 col-md-offset-3">
           <Header>Sign In</Header>
-          <form className="well form-horizontal" onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+          <form
+            className="well form-horizontal"
+            onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}
+          >
             <fieldset className="form-group">
               <Field name="email" label="Email:" type="email" component={renderField} />
             </fieldset>
@@ -71,7 +73,7 @@ class SignIn extends Component {
 
 SignIn.propTypes = {
   handleSubmit: PropTypes.func,
-  signinUser: PropTypes.func,
+  login: PropTypes.func,
   errorMessage: PropTypes.string
 };
 
@@ -87,4 +89,4 @@ function mapStateToProps(state) {
 }
 
 const form = reduxForm({ form: 'signin' })(SignIn);
-export default connect(mapStateToProps, { signinUser })(form);
+export default connect(mapStateToProps, { login })(form);

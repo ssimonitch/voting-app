@@ -1,36 +1,33 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const path = require('path');
-const cors = require('cors');
 const morgan = require('morgan');
 
 const session = require('./session');
-const router = require('./server-routes');
 
-module.exports = function(options) {
+module.exports = options => {
   const app = express();
 
-  app.use(cors());
+  // create middlewares
   app.use(morgan('combined'));
-
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
+  // init session & passport
   session(app);
-  router(app);
 
-  // API
-  app.use('/api', require('./api'));
+  // init strategies and routes
+  require('./services/passport');
+  require('./routes/authRoutes')(app);
+  require('./routes/apiRoutes')(app);
 
-  // VIEWS
-
-  app.use(express.static(path.resolve(__dirname, '..', 'public')));
-
+  // create default views
+  app.use(express.static(path.resolve(__dirname.toLowerCase(), '..', 'public')));
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'));
+    res.sendFile(path.resolve(__dirname.toLowerCase(), '..', 'public', 'index.html'));
   });
 
+  // set port
   app.set('port', options.port);
 
   return app;

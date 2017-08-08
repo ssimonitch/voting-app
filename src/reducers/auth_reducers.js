@@ -1,4 +1,4 @@
-import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, FETCH_MESSAGE } from '../actions/types';
+import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, FETCH_USER } from '../actions/types';
 
 const auth = (state = { authenticated: false }, action) => {
   switch (action.type) {
@@ -8,8 +8,8 @@ const auth = (state = { authenticated: false }, action) => {
     return { ...state, authenticated: false };
   case AUTH_ERROR:
     return { ...state, error: action.payload };
-  case FETCH_MESSAGE:
-    return { ...state, message: action.payload };
+  case FETCH_USER:
+    return { ...state, user: action.payload };
   default:
     return state;
   }
